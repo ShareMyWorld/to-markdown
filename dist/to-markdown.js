@@ -56,6 +56,13 @@ function isVoid(node) {
   return voids.indexOf(node.nodeName.toLowerCase()) !== -1;
 }
 
+var emptyAllowedNodes = [
+  'li'
+];
+
+function isEmptyAllowedNode(node) {
+  return emptyAllowedNodes.indexOf(node.nodeName.toLowerCase()) !== -1;
+}
 /*
  * Parsing HTML strings
  */
@@ -211,7 +218,7 @@ function process(node) {
   var replacement, content = getContent(node);
 
   // Remove blank nodes
-  if (!isVoid(node) && !/A/.test(node.nodeName) && /^\s*$/i.test(content)) {
+  if (!isVoid(node) && !/A/.test(node.nodeName) && !isEmptyAllowedNode(node) && /^\s*$/i.test(content)) {
     node._replacement = '';
     return;
   }
