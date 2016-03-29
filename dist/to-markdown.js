@@ -57,7 +57,7 @@ function isVoid(node) {
 }
 
 var emptyAllowedNodes = [
-  'li'
+  'li', 'mywo-content-widget'
 ];
 
 function isEmptyAllowedNode(node) {
