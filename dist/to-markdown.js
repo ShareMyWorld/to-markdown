@@ -138,7 +138,10 @@ function getContent(node) {
       text += node.childNodes[i]._replacement;
     }
     else if (node.childNodes[i].nodeType === 3) {
-      text += node.childNodes[i].data;
+      // The following regexp should match the one in marked.js for inline.escape, line: ~561
+      text += node.childNodes[i].data.replace(/[\/\\`*{}\[\]()#+\-.!_">]/g, function(match) {
+          return '\\' + match;
+      });
     }
     else { continue; }
   }
@@ -256,7 +259,7 @@ toMarkdown = function (input, options) {
   }
 
   // Escape potential ol triggers
-  input = input.replace(/(\d+)\. /g, '$1\\. ');
+  // input = input.replace(/(\d+)\. /g, '$1\\. ');
 
   var clone = htmlToDom(input).body,
       nodes = bfsOrder(clone),
