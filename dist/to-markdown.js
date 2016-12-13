@@ -139,7 +139,8 @@ function getContent(node) {
     }
     else if (node.childNodes[i].nodeType === 3) {
       // The following regexp should match the one in marked.js for inline.escape, line: ~561
-      text += node.childNodes[i].data.replace(/[\/\\`*{}\[\]()#+\-.!_">]/g, function(match) {
+      // Note that our marked.js runs with GFM and thus has extra ~| chars escaped
+      text += node.childNodes[i].data.replace(/[\/\\`*{}\[\]()#+\-.!_">~|]/g, function(match) {
           return '\\' + match;
       });
     }
