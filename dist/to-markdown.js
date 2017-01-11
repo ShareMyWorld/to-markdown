@@ -138,10 +138,12 @@ function getContent(node) {
       text += node.childNodes[i]._replacement;
     }
     else if (node.childNodes[i].nodeType === 3) {
-      // The following regexp should match the one in marked.js for inline.escape, line: ~561
-      // Note that our marked.js runs with GFM and thus has extra ~| chars escaped
-      text += node.childNodes[i].data.replace(/[\/\\`*{}\[\]()#+\-.!_">~|]/g, function(match) {
-          return '\\' + match;
+      text += node.childNodes[i].data.replace(/[\/\\`*{}\[\]()#+\-!_">~|]/g, function(match) {
+        return '\\' + match;
+      }).replace(/^(\s*\d+)\./, function(match, p1) {
+        // The regexp should match the one in marked.js for inline.escape, except . which we escaped above, line: ~561
+        // Note that our marked.js runs with GFM and thus has extra ~| chars escaped
+        return p1 + '\\.';
       });
     }
     else { continue; }
